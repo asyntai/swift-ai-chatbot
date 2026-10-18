@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    container: swift:6.2
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift build
+      - run: swift test
+
+  apple:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: macOS build and tests
+        run: swift test
+      - name: iOS build
+        run: xcodebuild build -scheme AsyntaiAIChatbot -destination 'generic/platform=iOS Simulator' -skipPackagePluginValidation
